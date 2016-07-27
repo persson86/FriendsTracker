@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -56,6 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double latitude;
     double longitude;
     HashMap<String, Marker> hashMapMarker = new HashMap<>();
+    HashMap<Number, String> hashMapRandom = new HashMap<>();
+    int randomNum;
+    int min = 1;
+    int max = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +97,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleApiClient.disconnect();
     }
 
-    public void setMarker(String userId, Double lat, Double lon){
-        latitude = lat;
-        longitude = lon;
-        LatLng latLng = new LatLng(latitude, longitude);
-        mCurrLocationMarker.setPosition(latLng);
+    public void generateRandomNumber(){
+        Random rand = new Random();
+        randomNum = rand.nextInt((max - min) + 1) + min;
     }
 
     public void addMarker(String userId, Double lat, Double lon){
@@ -112,13 +115,84 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             marker.setPosition(latLng);
         } else {
 
-            //if (latitude == 0.0) {
             //MarkerOptions markerOptions = new MarkerOptions();
             //markerOptions.position(latLng);
             //markerOptions.title(userId);
             //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male));
 
-            switch (userId) {
+            generateRandomNumber();
+            if(hashMapRandom.containsKey(randomNum)){
+                while (hashMapRandom.containsKey(randomNum)){
+                    generateRandomNumber();
+                }
+            }
+
+            hashMapRandom.put(randomNum, userId);
+
+            switch (randomNum){
+                case 1:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    break;
+                case 2:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                    break;
+                case 3:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    break;
+                case 4:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    break;
+                case 5:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    break;
+                case 6:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+                    break;
+                case 7:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    break;
+                case 8:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                    break;
+                case 9:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+                    break;
+                case 10:
+                    usersMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(userId)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                    break;
+            }
+
+            /*switch (userId) {
                 case "gAB9uO4wRiPheeWYeoOjKg67APb2":
                     usersMarker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
@@ -140,19 +214,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
                     //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                     break;
-            }
+            }*/
 
             //mCurrLocationMarker = mMap.addMarker(markerOptions);
             hashMapMarker.put(userId, usersMarker);
         }
-        /*}
-        else
-        {
-            latitude = lat;
-            longitude = lon;
-            LatLng latLng = new LatLng(latitude, longitude);
-            mCurrLocationMarker.setPosition(latLng);
-        }*/
     }
 
     public void getCoordenates(){
