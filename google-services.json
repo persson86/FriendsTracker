@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "976438740723",
+    "firebase_url": "https://mapslocator-1357.firebaseio.com",
+    "project_id": "mapslocator-1357",
+    "storage_bucket": "mapslocator-1357.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976438740723:android:00173ef44e887be7",
+        "android_client_info": {
+          "package_name": "com.mob.schneiderpersson.mapslocator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976438740723-2kro35rn3jgh00jku83mod3fvlqlf3jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARAQ2NeUP_4E2KUSazwRIhv_C9FGjRGf8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976438740723:android:fb29a1309bbd83b9",
+        "android_client_info": {
+          "package_name": "com.mob.schneiderpersson.friendstracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976438740723-2kro35rn3jgh00jku83mod3fvlqlf3jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARAQ2NeUP_4E2KUSazwRIhv_C9FGjRGf8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
