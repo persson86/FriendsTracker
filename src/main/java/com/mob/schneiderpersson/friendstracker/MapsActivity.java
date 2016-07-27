@@ -88,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        getCoordenates();
+        getCoordinates();
     }
 
     @Override
@@ -102,25 +102,108 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         randomNum = rand.nextInt((max - min) + 1) + min;
     }
 
-    public void addMarker(String userId, Double lat, Double lon){
+    public void addMarker(final String userId, Double lat, Double lon){
         if (userId == user.getUid())
             return;
 
+        String t = user.getUid();
+
         latitude = lat;
         longitude = lon;
-        LatLng latLng = new LatLng(latitude, longitude);
+        final LatLng latLng = new LatLng(latitude, longitude);
 
         if (hashMapMarker.containsKey(userId)) {
             Marker marker = hashMapMarker.get(userId);
             marker.setPosition(latLng);
         } else {
 
-            //MarkerOptions markerOptions = new MarkerOptions();
-            //markerOptions.position(latLng);
-            //markerOptions.title(userId);
-            //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male));
+            mDatabase.child("usersIndex").child(userId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                        UsersIndex index = dataSnapshot.getValue(UsersIndex.class);
+                        String username = index.getUsername();
+                        generateRandomNumber();
+                        if(hashMapRandom.containsKey(randomNum)){
+                            while (hashMapRandom.containsKey(randomNum)){
+                                generateRandomNumber();
+                            }
+                        }
 
-            generateRandomNumber();
+                        hashMapRandom.put(randomNum, userId);
+
+                        switch (randomNum){
+                            case 1:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                                break;
+                            case 2:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                                break;
+                            case 3:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                break;
+                            case 4:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                break;
+                            case 5:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                                break;
+                            case 6:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+                                break;
+                            case 7:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                break;
+                            case 8:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                                break;
+                            case 9:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+                                break;
+                            case 10:
+                                usersMarker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                                break;
+                        }
+
+                        hashMapMarker.put(userId, usersMarker);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            /*generateRandomNumber();
             if(hashMapRandom.containsKey(randomNum)){
                 while (hashMapRandom.containsKey(randomNum)){
                     generateRandomNumber();
@@ -192,36 +275,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     break;
             }
 
-            /*switch (userId) {
-                case "gAB9uO4wRiPheeWYeoOjKg67APb2":
-                    usersMarker = mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(userId)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                    //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    break;
-                case "Irb3W7Z4bfg3qQjweZXCsy0mEbw1":
-                    usersMarker = mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(userId)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                    //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                    break;
-                case "TGtNPBcnKhUWROSd4D1QZhpejUA3":
-                    usersMarker = mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(userId)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                    //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-                    break;
-            }*/
-
-            //mCurrLocationMarker = mMap.addMarker(markerOptions);
-            hashMapMarker.put(userId, usersMarker);
+            hashMapMarker.put(userId, usersMarker);*/
         }
     }
 
-    public void getCoordenates(){
+    public void getCoordinates(){
         mDatabase.child("usersLocation").addValueEventListener(
                 new ValueEventListener() {
                     @Override
@@ -230,7 +288,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String userId, username;
 
                         for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            User userInfo = userSnapshot.getValue(User.class);
+                            //User userInfo = userSnapshot.getValue(User.class);
                             userId   = userSnapshot.getKey();
 
                             UserLocation userLocation = userSnapshot.getValue(UserLocation.class);

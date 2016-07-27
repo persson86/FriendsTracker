@@ -16,8 +16,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,12 +81,28 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void saveUserDB(String userId){
+    public void saveUserDB(final String userId){
         HashMap<String, Object> userMap = new HashMap<>();
         userMap.put("email", email);
         userMap.put("username", username);
         userMap.put("userId", userId);
-        mDatabase.child("users").push().setValue(userMap);
+        mDatabase.child("users").push().setValue(userMap, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                String userNode = databaseReference.getKey().toString();
+                saveUserIndex(userId, userNode);
+            }
+        });
+    }
+
+    public void saveUserIndex(String userId, String userNode){
+        DatabaseReference usersIndexRef =FirebaseDatabase.getInstance().getReference().child("usersIndex");
+
+        Map<String, String> userData = new HashMap<>();
+        userData.put("userNode", userNode);
+        userData.put("username", username);
+
+        usersIndexRef.child(userId).setValue(userData);
     }
 
     public void loadAsyncTask() {
